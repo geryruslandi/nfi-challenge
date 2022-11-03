@@ -4,8 +4,8 @@ class UsersPrivateDataTransformer {
 
     private privateData: UsersPrivateData
 
-    constructor(user: UsersPrivateData) {
-        this.privateData = user
+    constructor(data: UsersPrivateData) {
+        this.privateData = data
     }
 
     public get() {

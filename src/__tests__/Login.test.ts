@@ -2,11 +2,10 @@ import { migrate, rollback } from "@tests/utils/DatabaseMigration"
 import request from 'supertest'
 import Server from '@src/Server'
 import RegistrationService from "@src/services/RegistrationService"
-import User from "@src/models/User"
 
 const server = new Server()
 
-describe.only("Login endpoint test", () => {
+describe("Login endpoint test", () => {
 
     beforeEach(migrate)
 
@@ -110,8 +109,6 @@ describe.only("Login endpoint test", () => {
                 username: 'geryruslandi',
                 password: '123123123'
             })
-
-        console.log(response.body)
 
         expect(response.statusCode).toBe(200)
     })

@@ -1,24 +1,25 @@
 const dotenv = require('dotenv')
 
 const configFile = (env) => {
-    if (env === 'prod') return '.env.prod'
-    if (env === 'test') return '.env.test'
+    const dir = __dirname + '/../'
+    if (env === 'prod') return dir +'.env.prod'
+    if (env === 'test') return dir + '.env.test'
 
-    return '.env'
+    return dir + '.env'
 }
 
-dotenv.config({
-    path: configFile(process.env.MIGRATION_ENV)
-})
+const env = dotenv.config({
+    path: configFile(process.env.APP_ENV)
+}).parsed
 
 
 const config = {
-    username: process.env.DB_USERNAME,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_DATABASE,
-    host: process.env.DB_HOST,
-    port: process.env.DB_PORT,
-    dialect: process.env.DB_DIALECT,
+    username: env.DB_USERNAME,
+    password: env.DB_PASSWORD,
+    database: env.DB_DATABASE,
+    host: env.DB_HOST,
+    port: env.DB_PORT,
+    dialect: env.DB_DIALECT,
     dialectOptions: {
         bigNumberStrings: true
     }

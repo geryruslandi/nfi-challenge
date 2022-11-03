@@ -1,26 +1,25 @@
 'use strict';
 
-/** @type {import('sequelize-cli').Migration} */
 module.exports = {
     async up(queryInterface, Sequelize) {
-        return queryInterface.createTable('users_private_data', {
+        return queryInterface.createTable('transactions', {
             id: {
                 allowNull: false,
                 autoIncrement: true,
                 primaryKey: true,
                 type: Sequelize.BIGINT,
             },
-            user_id: {
+            users_private_data_id: {
                 type: Sequelize.BIGINT,
                 references: {
-                    model: 'users',
+                    model: 'users_private_data',
                     key: 'id'
                 },
                 allowNull: false
             },
-            balance: {
+            amount: {
                 type: Sequelize.BIGINT,
-                defaultValue: 0
+                allowNull: false
             },
             created_at: {
                 allowNull: false,
@@ -36,6 +35,6 @@ module.exports = {
     },
 
     async down(queryInterface, Sequelize) {
-        return queryInterface.dropTable('users_private_data')
+        return queryInterface.dropTable('transactions')
     }
 };

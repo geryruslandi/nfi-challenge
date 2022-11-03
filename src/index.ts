@@ -1,11 +1,11 @@
-import 'module-alias/register';
+import 'module-alias/register'
 
-import dotenv from 'dotenv';
+import dotenv from 'dotenv'
 import Server from './Server'
 
 dotenv.config();
 
-const port = Number(process.env.APP_PORT);
+const port = Number(process.env.APP_PORT)
 const server = new Server(port)
 server.start()
 

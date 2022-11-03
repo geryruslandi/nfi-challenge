@@ -4,11 +4,11 @@ import { Result, ValidationError } from 'express-validator';
 export function jsonResponse(response : Response, responseData: any, internalCode = 1000, status = 200) {
     return response.status(status).json( {
         code: internalCode,
-        response : responseData
+        data : responseData
     });
 }
 
-export function jsonResponseMessageOk(response: Response, message: string) {
+export function jsonResponseMessageOk(response: Response, message: string = "success") {
     return jsonResponse(response, {
         message
     })

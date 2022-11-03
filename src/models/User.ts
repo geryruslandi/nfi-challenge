@@ -28,6 +28,10 @@ class User extends Model<UsersAttribute> {
   public isPasswordMatch(plainPassword: string) {
     return (new AuthService(this)).isPasswordMatch(plainPassword)
   }
+
+  public generateBearerToken() {
+    return "Bearer " + (new AuthService(this)).generateToken()
+  }
 }
 
 export default User

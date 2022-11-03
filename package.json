@@ -4,12 +4,14 @@
   "description": "",
   "main": "dist/index.js",
   "scripts": {
-    "build": "npx tsc",
     "start": "node dist/index.js",
     "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/index.js\"",
-    "test": "jest --detectOpenHandles",
+    "test": "export APP_ENV=test && jest --detectOpenHandles",
     "migrate": "sequelize-cli db:migrate",
-    "rollback": "sequelize-cli db:migrate:undo:all"
+    "rollback": "sequelize-cli db:migrate:undo:all",
+    "prod:build": "export APP_ENV=prod && npx tsc",
+    "prod:migrate": "export APP_ENV=prod && sequelize-cli db:migrate",
+    "prod:rollback": "export APP_ENV=prod && sequelize-cli db:migrate:undo:all"
   },
   "author": "",
   "license": "ISC",
@@ -18,6 +20,7 @@
     "bcrypt": "^5.1.0",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
+    "express-async-errors": "^3.1.1",
     "express-validator": "^6.14.2",
     "jsonwebtoken": "^8.5.1",
     "mysql2": "^2.3.3",
