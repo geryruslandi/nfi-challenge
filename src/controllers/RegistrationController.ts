@@ -5,6 +5,7 @@ import User from "@src/models/User";
 import { jsonResponse, jsonResponseMessageOk, jsonResponseValidationError } from "@src/utils/Helpers";
 import RegistrationService from "@src/services/RegistrationService";
 import UserTransformer from "@src/transformers/UserTransformer";
+import AuthService from "@src/services/AuthService";
 
 class RegistrationController {
 
@@ -38,13 +39,16 @@ class RegistrationController {
             }
 
             const service = new RegistrationService()
-
             const user = await service.createUser(req.body.username, req.body.password)
 
             const transformer = new UserTransformer(user)
+            transformer.with(['privateData'])
+
+            const token = new AuthService(user)
 
             jsonResponse(res, {
-                user: transformer.get()
+                user: transformer.get(),
+                token: token.generateToken()
             })
         }
     ]

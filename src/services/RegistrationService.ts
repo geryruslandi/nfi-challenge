@@ -8,6 +8,10 @@ class RegistrationService {
             password: bcrypt.hashSync(password, bcrypt.genSaltSync(10))
         })
 
+        await user.$create('privateData', {
+            balance: 0
+        })
+
         return user
     }
 }
