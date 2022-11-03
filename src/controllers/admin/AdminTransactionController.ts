@@ -7,13 +7,13 @@ import { body, validationResult } from "express-validator"
 
 type AuthenticatedRequest = Request & {user: User}
 
-class TransactionController {
+class AdminTransactionController {
 
     public deposit = [
         body('amount')
             .isNumeric()
             .withMessage('amount should be numeric')
-            .isInt({min: 1})
+            .isFloat({min: 1})
             .withMessage('amount should be greater than zero'),
         body('user_id')
             .notEmpty()
@@ -45,7 +45,7 @@ class TransactionController {
         body('amount')
             .isNumeric()
             .withMessage('amount should be numeric')
-            .isInt({min: 1})
+            .isFloat({min: 1})
             .withMessage('amount should be greater than zero'),
         body('user_id')
             .notEmpty()
@@ -79,4 +79,4 @@ class TransactionController {
 
 }
 
-export default TransactionController
+export default AdminTransactionController

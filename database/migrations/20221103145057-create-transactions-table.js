@@ -22,7 +22,7 @@ module.exports = {
                 allowNull: false
             },
             amount: {
-                type: Sequelize.BIGINT,
+                type: Sequelize.DOUBLE,
                 allowNull: false
             },
             created_at: {

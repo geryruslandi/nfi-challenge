@@ -1,6 +1,6 @@
 import Transaction from '@src/models/Transaction';
 import User from '@src/models/User';
-import { Table, Column, Model, BelongsTo, ForeignKey, HasMany } from 'sequelize-typescript';
+import { Table, Column, Model, BelongsTo, ForeignKey, HasMany, DataType } from 'sequelize-typescript';
 
 interface Attribute {
     user_id: number
@@ -19,7 +19,7 @@ class UsersPrivateData extends Model<Attribute> {
     @Column
     user_id!: number;
 
-    @Column
+    @Column(DataType.DOUBLE)
     balance!: number;
 
     @BelongsTo(() => User)

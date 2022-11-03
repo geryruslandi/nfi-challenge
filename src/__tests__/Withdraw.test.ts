@@ -51,6 +51,22 @@ describe("Withdaw endpoint test", () => {
         expect(response.statusCode).toBe(200)
     })
 
+    it("can withdraw decimal amount", async () => {
+        const response = await request(server.app)
+            .post('/transactions/withdraw')
+            .send({
+                amount: 90.5
+            })
+            .set('Authorization', user.generateBearerToken())
+
+        const balance = response.body.data.private_data.balance
+        const privateData = await UsersPrivateData.findOne()
+
+        expect(response.statusCode).toBe(200)
+        expect(balance).toBe(9.5)
+        expect(privateData?.balance).toBe(9.5)
+    })
+
     it("cant withdraw if withdrawal amount is greater than user's balance", async () => {
 
         const response = await request(server.app)

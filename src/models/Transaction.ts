@@ -22,7 +22,7 @@ class Transaction extends Model<Attribute> {
     @Column
     users_private_data_id!: number;
 
-    @Column
+    @Column(DataType.DOUBLE)
     amount!: number;
 
     @Column(DataType.STRING)

@@ -19,7 +19,7 @@ module.exports = {
                 allowNull: false
             },
             balance: {
-                type: Sequelize.BIGINT,
+                type: Sequelize.DOUBLE,
                 defaultValue: 0
             },
             created_at: {

@@ -48,6 +48,22 @@ describe("Deposit endpoint test", () => {
         expect(response.statusCode).toBe(200)
     })
 
+    it("can deposit decimal amount", async () => {
+        const response = await request(server.app)
+            .post('/transactions/deposit')
+            .send({
+                amount: 90.5
+            })
+            .set('Authorization', user.generateBearerToken())
+
+        const balance = response.body.data.private_data.balance
+        const privateData = await UsersPrivateData.findOne()
+
+        expect(response.statusCode).toBe(200)
+        expect(balance).toBe(90.5)
+        expect(privateData?.balance).toBe(90.5)
+    })
+
     it("will store correct deposit amount", async () => {
         const response = await request(server.app)
             .post('/transactions/deposit')
