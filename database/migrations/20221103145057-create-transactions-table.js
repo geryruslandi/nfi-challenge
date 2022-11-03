@@ -17,6 +17,10 @@ module.exports = {
                 },
                 allowNull: false
             },
+            type: {
+                type: Sequelize.STRING,
+                allowNull: false
+            },
             amount: {
                 type: Sequelize.BIGINT,
                 allowNull: false

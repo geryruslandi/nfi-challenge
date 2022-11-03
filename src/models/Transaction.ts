@@ -1,9 +1,15 @@
 import UsersPrivateData from '@src/models/UsersPrivateData';
-import { Table, Column, Model, BelongsTo, ForeignKey } from 'sequelize-typescript';
+import { Table, Column, Model, BelongsTo, ForeignKey, DataType } from 'sequelize-typescript';
 
 interface Attribute {
     users_private_data_id: number
     amount: number
+    type: TypeEnum
+}
+
+enum TypeEnum {
+    DEPOSIT = 'deposit',
+    WITHDRAW = 'withdraw'
 }
 
 @Table({
@@ -19,8 +25,15 @@ class Transaction extends Model<Attribute> {
     @Column
     amount!: number;
 
+    @Column(DataType.STRING)
+    type!: TypeEnum
+
     @BelongsTo(() => UsersPrivateData)
     userData!: UsersPrivateData
 }
 
 export default Transaction
+
+export {
+    TypeEnum
+}

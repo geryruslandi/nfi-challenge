@@ -1,5 +1,6 @@
 import UsersPrivateData from '@src/models/UsersPrivateData';
 import AuthService from '@src/services/AuthService';
+import TransactionService from '@src/services/TransactionService';
 
 import { Table, Column, Model, HasOne } from 'sequelize-typescript';
 
@@ -31,6 +32,16 @@ class User extends Model<UsersAttribute> {
 
   public generateBearerToken() {
     return "Bearer " + (new AuthService(this)).generateToken()
+  }
+
+  public deposit(amount: number): Promise<UsersPrivateData> {
+    const service = new TransactionService(this)
+    return service.deposit(amount)
+  }
+
+  public withdraw(amount: number): Promise<UsersPrivateData> {
+    const service = new TransactionService(this)
+    return service.withdraw(amount)
   }
 }
 

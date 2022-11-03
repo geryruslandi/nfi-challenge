@@ -10,4 +10,6 @@ const controller = new TransactionController()
 
 router.post('/deposit', controller.deposit as any)
 
+router.post('/withdraw', controller.withdraw as any)
+
 export default router

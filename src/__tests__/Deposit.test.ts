@@ -4,10 +4,11 @@ import Server from '@src/Server'
 import RegistrationService from "@src/services/RegistrationService"
 import User from "@src/models/User"
 import UsersPrivateData from "@src/models/UsersPrivateData"
+import Transaction, { TypeEnum } from "@src/models/Transaction"
 
 const server = new Server()
 
-describe("Login endpoint test", () => {
+describe("Deposit endpoint test", () => {
 
     let user: User
 
@@ -61,6 +62,19 @@ describe("Login endpoint test", () => {
 
         expect(balance).toBe(100)
         expect(privateData?.balance).toBe(100)
+    })
+
+    it("will set transaction's type as deposit", async () => {
+        await request(server.app)
+            .post('/transactions/deposit')
+            .send({
+                amount: 100
+            })
+            .set('Authorization', user.generateBearerToken())
+
+        const transaction = await Transaction.findOne()
+
+        expect(transaction?.type).toBe(TypeEnum.DEPOSIT)
     })
 
     it("wont deposit if amount zero", async () => {
