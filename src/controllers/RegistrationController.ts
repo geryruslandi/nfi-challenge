@@ -2,13 +2,12 @@ import { Request, Response } from "express";
 import { body, validationResult } from "express-validator";
 
 import User from "@src/models/User";
-import { jsonResponse, jsonResponseMessageOk, jsonResponseValidationError } from "@src/utils/Helpers";
+import { jsonResponse, jsonResponseValidationError } from "@src/utils/Helpers";
 import RegistrationService from "@src/services/RegistrationService";
 import UserTransformer from "@src/transformers/UserTransformer";
 import AuthService from "@src/services/AuthService";
 
 class RegistrationController {
-
 
     public store = [
         body('username')

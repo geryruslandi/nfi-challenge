@@ -1,5 +1,6 @@
 import UsersPrivateData from '@src/models/UsersPrivateData';
-import bcrypt from 'bcrypt'
+import AuthService from '@src/services/AuthService';
+
 import { Table, Column, Model, HasOne } from 'sequelize-typescript';
 
 
@@ -25,7 +26,7 @@ class User extends Model<UsersAttribute> {
   privateData!: UsersPrivateData
 
   public isPasswordMatch(plainPassword: string) {
-    return bcrypt.compareSync(plainPassword, this.password)
+    return (new AuthService(this)).isPasswordMatch(plainPassword)
   }
 }
 

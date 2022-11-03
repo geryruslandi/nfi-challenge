@@ -1,6 +1,7 @@
 import User from "@src/models/User";
 import jwt from 'jsonwebtoken';
 import appConfig from '@src/config/app'
+import bcrypt from 'bcrypt'
 
 class AuthService {
 
@@ -19,8 +20,21 @@ class AuthService {
         )
     }
 
-    public checkToken(token: string) {
+    public isPasswordMatch(plainPassword: string) {
+        return bcrypt.compareSync(plainPassword, this.user.password)
+    }
 
+    public static async login(username: string, password: string) {
+        const user = await User.findOne({
+            where: { username: username},
+            include: ['privateData']
+        })
+
+        if(!user || !user.isPasswordMatch(password)){
+            throw "Username or password not match"
+        }
+
+        return user
     }
 }
 
