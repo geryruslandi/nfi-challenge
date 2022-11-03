@@ -28,7 +28,7 @@ class Transaction extends Model<Attribute> {
     @Column(DataType.STRING)
     type!: TypeEnum
 
-    @BelongsTo(() => UsersPrivateData)
+    @BelongsTo(() => UsersPrivateData, 'users_private_data_id')
     userData!: UsersPrivateData
 }
 

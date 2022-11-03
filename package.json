@@ -9,6 +9,7 @@
     "test": "export APP_ENV=test && jest --detectOpenHandles",
     "migrate": "sequelize-cli db:migrate",
     "rollback": "sequelize-cli db:migrate:undo:all",
+
     "prod:build": "export APP_ENV=prod && npx tsc",
     "prod:migrate": "export APP_ENV=prod && sequelize-cli db:migrate",
     "prod:rollback": "export APP_ENV=prod && sequelize-cli db:migrate:undo:all"
@@ -53,7 +54,6 @@
   "_moduleAliases": {
     "@src": "dist",
     "@controllers": "dist/controllers",
-    "@routers": "dist/routers",
-    "@tests": "dist/__tests__"
+    "@routers": "dist/routers"
   }
 }

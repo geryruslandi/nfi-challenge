@@ -1,18 +1,23 @@
 /** @type {import('ts-jest').JestConfigWithTsJest} */
 module.exports = {
     preset: 'ts-jest',
+    globals: {
+        'ts-jest': {
+          tsConfig: 'tsconfig.test.json'
+        }
+    },
     testEnvironment: 'node',
     moduleNameMapper: {
-        "@tests/(.*)": "<rootDir>/src/__tests__/$1",
+        "@tests/(.*)": "<rootDir>/__tests__/$1",
         "@src/(.*)": "<rootDir>/src/$1",
         "@routers/(.*)": "<rootDir>/src/routers/$1",
         "@models/(.*)": "<rootDir>/src/models/$1",
         "@controllers/(.*)": "<rootDir>/src/controllers/$1",
     },
     testPathIgnorePatterns : [
-        "<rootDir>/src/__tests__/utils/*"
+        "<rootDir>/__tests__/utils/*"
     ],
     testMatch: [
-        "<rootDir>/src/__tests__/*"
+        "<rootDir>/__tests__/*"
     ]
 };

@@ -5,8 +5,6 @@ import { Table, Column, Model, BelongsTo, ForeignKey, HasMany, DataType } from '
 interface Attribute {
     user_id: number
     balance?: number
-    user?: User
-    transactions?: Transaction[]
 }
 
 @Table({
@@ -25,7 +23,7 @@ class UsersPrivateData extends Model<Attribute> {
     @BelongsTo(() => User)
     user!: User
 
-    @HasMany(() => Transaction)
+    @HasMany(() => Transaction, 'users_private_data_id')
     transactions!: Transaction[]
 
 }

@@ -23,7 +23,7 @@ class User extends Model<UsersAttribute> {
   @Column
   password!: string;
 
-  @HasOne(() => UsersPrivateData)
+  @HasOne(() => UsersPrivateData, 'user_id')
   privateData!: UsersPrivateData
 
   public isPasswordMatch(plainPassword: string) {
