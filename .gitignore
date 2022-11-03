@@ -3,3 +3,4 @@
 .env
 .env.prod
 .env.test
+yarn-error.log

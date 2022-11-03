@@ -1,4 +1,5 @@
 import {Request, Response} from 'express';
+import { Result, ValidationError } from 'express-validator';
 
 export function jsonResponse(response : Response, responseData: any, internalCode = 1000, status = 200) {
     return response.status(status).json( {
@@ -21,6 +22,10 @@ export function jsonResponseMessageError(response: Response, message: string, in
             location: null
         }
     ], internalCode, httpCode)
+}
+
+export function jsonResponseValidationError(response: Response, errors: Result<ValidationError>) {
+    return jsonResponseMessageError(response, errors.array()[0]?.msg, 4220, 422)
 }
 
 export function jsonResponseUnauthorized(response: Response) {

@@ -1,18 +1,10 @@
-import {SequelizeStorage, Umzug} from 'umzug'
-import {sequelize} from '@src/SequelizeInit'
+import Shell from 'shelljs'
 
-const umzug = new Umzug({
-    migrations: { glob: 'migrations/*.js' },
-    context: sequelize.getQueryInterface(),
-    storage: new SequelizeStorage({ sequelize }),
-    logger: console,
-});
-
-export async function migrate() {
-    await umzug.up();
+export function migrate(done: any) {
+    Shell.exec('yarn migrate', {silent: true}, () => done())
 
 }
 
-export async function rollback() {
-    await umzug.down({ to: 0 })
+export function rollback(done: any) {
+    Shell.exec('yarn rollback', {silent: true}, () => done())
 }

@@ -1,7 +1,8 @@
 
-import * as http from "http";
-import express from "express";
+import * as http from "http"
+import express from "express"
 import router from '@routers/index'
+import { sequelize } from '@src/SequelizeInit'
 
 class Server {
 
@@ -14,6 +15,7 @@ class Server {
         this.app.use(express.json());
         this.port = port
         this.app.use(router)
+        this.setUpSequelize()
     }
 
     public start() {
@@ -22,6 +24,13 @@ class Server {
         })
     }
 
+    private setUpSequelize() {
+        sequelize.authenticate().then(() => {
+            console.log('db connection success')
+        }).catch((err: any) => {
+            console.log('db connection fails', err)
+        })
+    }
 
 }
 

@@ -9,6 +9,7 @@ const config = {
     port: Number(env.DB_PORT) as number,
     host: env.DB_HOST as string,
     storage: ':memory:',
+    models: [__dirname + '/../Models/*'],
 }
 
 export default config;
