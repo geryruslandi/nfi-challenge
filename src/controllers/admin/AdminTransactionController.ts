@@ -1,4 +1,5 @@
 import User from "@src/models/User"
+import UsersPrivateData from "@src/models/UsersPrivateData"
 import UsersPrivateDataTransformer from "@src/transformers/UsersPrivateDataTransformer"
 import { jsonResponse, jsonResponseMessageError, jsonResponseValidationError } from "@src/utils/Helpers"
 import { Request, Response } from "express"
@@ -6,7 +7,7 @@ import { body, validationResult } from "express-validator"
 
 type AuthenticatedRequest = Request & {user: User}
 
-class TransactionController {
+class AdminTransactionController {
 
     public deposit = [
         body('amount')
@@ -14,6 +15,14 @@ class TransactionController {
             .withMessage('amount should be numeric')
             .isFloat({min: 1})
             .withMessage('amount should be greater than zero'),
+        body('user_id')
+            .notEmpty()
+            .withMessage('user id cant be empty')
+            .custom(async (value) => {
+                const existUser = await User.findByPk(value)
+
+                if(!existUser) throw "user not found"
+            }),
         async function(req: AuthenticatedRequest, res: Response) {
 
             const errors = validationResult(req);
@@ -21,7 +30,8 @@ class TransactionController {
                 return jsonResponseValidationError(res, errors);
             }
 
-            const privateData = await req.user.deposit(req.body.amount)
+            const user = await User.findByPk(req.body.user_id)
+            const privateData = await user?.deposit(req.body.amount) as UsersPrivateData
 
             const transformer = new UsersPrivateDataTransformer(privateData)
 
@@ -37,6 +47,14 @@ class TransactionController {
             .withMessage('amount should be numeric')
             .isFloat({min: 1})
             .withMessage('amount should be greater than zero'),
+        body('user_id')
+            .notEmpty()
+            .withMessage('user id cant be empty')
+            .custom(async (value) => {
+                const existUser = await User.findByPk(value)
+
+                if(!existUser) throw "user not found"
+            }),
         async function(req: AuthenticatedRequest, res: Response) {
 
             const errors = validationResult(req);
@@ -45,7 +63,8 @@ class TransactionController {
             }
 
             try {
-                const privateData = await req.user.withdraw(req.body.amount)
+                const user = await User.findByPk(req.body.user_id)
+                const privateData = await user?.withdraw(req.body.amount) as UsersPrivateData
 
                 const transformer = new UsersPrivateDataTransformer(privateData)
 
@@ -60,4 +79,4 @@ class TransactionController {
 
 }
 
-export default TransactionController
+export default AdminTransactionController

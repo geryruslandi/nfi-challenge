@@ -8,7 +8,7 @@ import Transaction, { TypeEnum } from "@src/models/Transaction"
 
 const server = new Server()
 
-describe("Deposit endpoint test", () => {
+describe("Admin Deposit endpoint test", () => {
 
     let user: User
 
@@ -27,34 +27,35 @@ describe("Deposit endpoint test", () => {
 
     afterEach(rollback)
 
-    it("cant deposit if not authenticated", async () => {
+    it("cant deposit non exist user", async () => {
         const response = await request(server.app)
-            .post('/transactions/deposit')
+            .post('/admin/transactions/deposit')
             .send({
-                amount: 100
+                amount: 100,
+                user_id: 999
             })
 
-        expect(response.statusCode).toBe(401)
+        expect(response.statusCode).toBe(422)
     })
 
-    it("can deposit if authenticated", async () => {
+    it("can deposit existing user", async () => {
         const response = await request(server.app)
-            .post('/transactions/deposit')
+            .post('/admin/transactions/deposit')
             .send({
-                amount: 100
+                amount: 100,
+                user_id: user.id
             })
-            .set('Authorization', user.generateBearerToken())
 
         expect(response.statusCode).toBe(200)
     })
 
     it("can deposit decimal amount", async () => {
         const response = await request(server.app)
-            .post('/transactions/deposit')
+            .post('/admin/transactions/deposit')
             .send({
-                amount: 90.5
+                amount: 90.5,
+                user_id: user.id
             })
-            .set('Authorization', user.generateBearerToken())
 
         const balance = response.body.data.private_data.balance
         const privateData = await UsersPrivateData.findOne()
@@ -66,11 +67,11 @@ describe("Deposit endpoint test", () => {
 
     it("will store correct deposit amount", async () => {
         const response = await request(server.app)
-            .post('/transactions/deposit')
+            .post('/admin/transactions/deposit')
             .send({
-                amount: 100
+                amount: 100,
+                user_id: user.id
             })
-            .set('Authorization', user.generateBearerToken())
 
         const balance = response.body.data.private_data.balance
 
@@ -82,11 +83,11 @@ describe("Deposit endpoint test", () => {
 
     it("will set transaction's type as deposit", async () => {
         await request(server.app)
-            .post('/transactions/deposit')
+            .post('/admin/transactions/deposit')
             .send({
-                amount: 100
+                amount: 100,
+                user_id: user.id
             })
-            .set('Authorization', user.generateBearerToken())
 
         const transaction = await Transaction.findOne()
 
@@ -95,33 +96,33 @@ describe("Deposit endpoint test", () => {
 
     it("wont deposit if amount zero", async () => {
         const response = await request(server.app)
-            .post('/transactions/deposit')
+            .post('/admin/transactions/deposit')
             .send({
-                amount: 0
+                amount: 0,
+                user_id: user.id
             })
-            .set('Authorization', user.generateBearerToken())
 
         expect(response.statusCode).toBe(422)
     })
 
     it("wont deposit if amount negative", async () => {
         const response = await request(server.app)
-            .post('/transactions/deposit')
+            .post('/admin/transactions/deposit')
             .send({
-                amount: -100
+                amount: -100,
+                user_id: user.id
             })
-            .set('Authorization', user.generateBearerToken())
 
         expect(response.statusCode).toBe(422)
     })
 
     it("wont deposit if amount is not integer", async () => {
         const response = await request(server.app)
-            .post('/transactions/deposit')
+            .post('/admin/transactions/deposit')
             .send({
-                amount: 'gery'
+                amount: 'gery',
+                user_id: user.id
             })
-            .set('Authorization', user.generateBearerToken())
 
         expect(response.statusCode).toBe(422)
     })
@@ -132,11 +133,11 @@ describe("Deposit endpoint test", () => {
         const otherPerson = await service.createUser('otherperson', '123123123')
 
         const response = await request(server.app)
-            .post('/transactions/deposit')
+            .post('/admin/transactions/deposit')
             .send({
-                amount: 100
+                amount: 100,
+                user_id: user.id
             })
-            .set('Authorization', user.generateBearerToken())
 
         const otherPersonsPrivateData = await otherPerson.$get('privateData')
 

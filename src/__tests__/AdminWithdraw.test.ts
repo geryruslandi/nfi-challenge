@@ -8,7 +8,7 @@ import Transaction, { TypeEnum } from "@src/models/Transaction"
 
 const server = new Server()
 
-describe("Withdaw endpoint test", () => {
+describe("Admin Withdaw endpoint test", () => {
 
     let user: User
 
@@ -29,35 +29,36 @@ describe("Withdaw endpoint test", () => {
 
     afterEach(rollback)
 
-    it("cant withdraw if not authenticated", async () => {
+    it("cant withdraw non exist user", async () => {
         const response = await request(server.app)
-            .post('/transactions/withdraw')
+            .post('/admin/transactions/withdraw')
             .send({
-                amount: 100
+                amount: 100,
+                user_id: 999
             })
 
-        expect(response.statusCode).toBe(401)
+        expect(response.statusCode).toBe(422)
     })
 
-    it("can withdraw if authenticated", async () => {
+    it("can withdraw existing user", async () => {
 
         const response = await request(server.app)
-            .post('/transactions/withdraw')
+            .post('/admin/transactions/withdraw')
             .send({
-                amount: 100
+                amount: 100,
+                user_id: user.id
             })
-            .set('Authorization', user.generateBearerToken())
 
         expect(response.statusCode).toBe(200)
     })
 
     it("can withdraw decimal amount", async () => {
         const response = await request(server.app)
-            .post('/transactions/withdraw')
+            .post('/admin/transactions/withdraw')
             .send({
-                amount: 90.5
+                amount: 90.5,
+                user_id: user.id
             })
-            .set('Authorization', user.generateBearerToken())
 
         const balance = response.body.data.private_data.balance
         const privateData = await UsersPrivateData.findOne()
@@ -70,22 +71,22 @@ describe("Withdaw endpoint test", () => {
     it("cant withdraw if withdrawal amount is greater than user's balance", async () => {
 
         const response = await request(server.app)
-            .post('/transactions/withdraw')
+            .post('/admin/transactions/withdraw')
             .send({
-                amount: 101
+                amount: 101,
+                user_id: user.id
             })
-            .set('Authorization', user.generateBearerToken())
 
         expect(response.statusCode).toBe(422)
     })
 
-    it("will deduct correct withdraw amount", async () => {
+    it("will deduct correct withdrawal amount", async () => {
         const response = await request(server.app)
-            .post('/transactions/withdraw')
+            .post('/admin/transactions/withdraw')
             .send({
-                amount: 95
+                amount: 95,
+                user_id: user.id
             })
-            .set('Authorization', user.generateBearerToken())
 
         const balance = response.body.data.private_data.balance
 
@@ -97,11 +98,11 @@ describe("Withdaw endpoint test", () => {
 
     it("will set transaction's type as withdraw", async () => {
         await request(server.app)
-            .post('/transactions/withdraw')
+            .post('/admin/transactions/withdraw')
             .send({
-                amount: 100
+                amount: 100,
+                user_id: user.id
             })
-            .set('Authorization', user.generateBearerToken())
 
         const transaction = await Transaction.findOne({order: [['id', 'desc']]})
 
@@ -110,33 +111,33 @@ describe("Withdaw endpoint test", () => {
 
     it("wont withdraw if amount zero", async () => {
         const response = await request(server.app)
-            .post('/transactions/withdraw')
+            .post('/admin/transactions/withdraw')
             .send({
-                amount: 0
+                amount: 0,
+                user_id: user.id
             })
-            .set('Authorization', user.generateBearerToken())
 
         expect(response.statusCode).toBe(422)
     })
 
-    it("wont withdraw if amount negative", async () => {
+    it("wont withdraw if amount is negative", async () => {
         const response = await request(server.app)
-            .post('/transactions/withdraw')
+            .post('/admin/transactions/withdraw')
             .send({
-                amount: -100
+                amount: -100,
+                user_id: user.id
             })
-            .set('Authorization', user.generateBearerToken())
 
         expect(response.statusCode).toBe(422)
     })
 
     it("wont withdraw if amount is not integer", async () => {
         const response = await request(server.app)
-            .post('/transactions/withdraw')
+            .post('/admin/transactions/withdraw')
             .send({
-                amount: 'gery'
+                amount: 'gery',
+                user_id: user.id
             })
-            .set('Authorization', user.generateBearerToken())
 
         expect(response.statusCode).toBe(422)
     })
@@ -148,11 +149,11 @@ describe("Withdaw endpoint test", () => {
         await otherPerson.deposit(100)
 
         const response = await request(server.app)
-            .post('/transactions/withdraw')
+            .post('/admin/transactions/withdraw')
             .send({
-                amount: 100
+                amount: 100,
+                user_id: user.id
             })
-            .set('Authorization', user.generateBearerToken())
 
         const otherPersonsPrivateData = await otherPerson.$get('privateData')
 
