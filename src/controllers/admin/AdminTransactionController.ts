@@ -36,7 +36,8 @@ class AdminTransactionController {
             const transformer = new UsersPrivateDataTransformer(privateData)
 
             return jsonResponse(res, {
-                private_data: transformer.get()
+                private_data: transformer.get(),
+                deposit: req.body.amount
             })
         }
     ]
@@ -69,7 +70,8 @@ class AdminTransactionController {
                 const transformer = new UsersPrivateDataTransformer(privateData)
 
                 return jsonResponse(res, {
-                    private_data: transformer.get()
+                    private_data: transformer.get(),
+                    withdraw: req.body.amount
                 })
             } catch(e: any) {
                 return jsonResponseMessageError(res, e, 4220, 422)
