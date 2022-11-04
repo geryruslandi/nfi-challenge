@@ -31,11 +31,9 @@ class LoginController {
                 const transformer = new UserTransformer(user)
                 transformer.with(['privateData'])
 
-                const tokenService = new AuthService(user)
-
                 return jsonResponse(res, {
                     user: transformer.get(),
-                    token: tokenService.generateToken()
+                    token: user.generateBearerToken(false)
                 })
             } catch (e: any) {
                 return jsonResponseMessageError(res, e, 4010, 401)

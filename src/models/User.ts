@@ -30,8 +30,13 @@ class User extends Model<UsersAttribute> {
     return (new AuthService(this)).isPasswordMatch(plainPassword)
   }
 
-  public generateBearerToken() {
-    return "Bearer " + (new AuthService(this)).generateToken()
+  public generateBearerToken(withBearer: boolean = true) {
+
+    const token = (new AuthService(this)).generateToken()
+
+    if(!withBearer) return token
+
+    return "Bearer " + token
   }
 
   public deposit(amount: number): Promise<UsersPrivateData> {

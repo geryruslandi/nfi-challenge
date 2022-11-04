@@ -39,6 +39,7 @@ class RegistrationController {
 
             const service = new RegistrationService()
             const user = await service.createUser(req.body.username, req.body.password)
+            await user.reload({include: ['privateData']})
 
             const transformer = new UserTransformer(user)
             transformer.with(['privateData'])
