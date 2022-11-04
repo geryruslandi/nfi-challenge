@@ -17,4 +17,11 @@ passport.use(
     })
 )
 
-export default passport
+const jwtAuthMiddleware = passport.authenticate(
+    'jwt',
+    {session: false}
+)
+
+export {
+    jwtAuthMiddleware
+}

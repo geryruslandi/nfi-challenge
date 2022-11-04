@@ -11,7 +11,7 @@ class UsersPrivateDataTransformer {
     public get() {
         const data = {
             id: this.privateData.id,
-            balance: this.privateData.balance,
+            balance: this.privateData.balance.toFixed(2),
         }
 
         return data

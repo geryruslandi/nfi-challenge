@@ -14,7 +14,7 @@ class AdminTransactionController {
             .isNumeric()
             .withMessage('amount should be numeric')
             .isFloat({min: 1})
-            .withMessage('amount should be greater than zero'),
+            .withMessage('minimal transaction amount should be 1'),
         body('user_id')
             .notEmpty()
             .withMessage('user id cant be empty')
@@ -46,7 +46,7 @@ class AdminTransactionController {
             .isNumeric()
             .withMessage('amount should be numeric')
             .isFloat({min: 1})
-            .withMessage('amount should be greater than zero'),
+            .withMessage('minimal transaction amount should be 1'),
         body('user_id')
             .notEmpty()
             .withMessage('user id cant be empty')

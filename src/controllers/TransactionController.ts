@@ -13,7 +13,7 @@ class TransactionController {
             .isNumeric()
             .withMessage('amount should be numeric')
             .isFloat({min: 1})
-            .withMessage('amount should be greater than zero'),
+            .withMessage('minimal transaction amount should be 1'),
         async function(req: AuthenticatedRequest, res: Response) {
 
             const errors = validationResult(req);
@@ -36,7 +36,7 @@ class TransactionController {
             .isNumeric()
             .withMessage('amount should be numeric')
             .isFloat({min: 1})
-            .withMessage('amount should be greater than zero'),
+            .withMessage('minimal transaction amount should be 1'),
         async function(req: AuthenticatedRequest, res: Response) {
 
             const errors = validationResult(req);

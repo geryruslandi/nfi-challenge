@@ -1,10 +1,10 @@
 import TransactionController from '@controllers/TransactionController'
-import passport from '@src/utils/Passport'
+import { jwtAuthMiddleware } from '@src/utils/Passport'
 import express from 'express'
 
 const router = express.Router()
 
-router.use(passport.authenticate('jwt', {session: false}))
+router.use(jwtAuthMiddleware)
 
 const controller = new TransactionController()
 
