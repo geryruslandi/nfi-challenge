@@ -168,7 +168,7 @@ Success response example:
 }
 ```
 
-## (Admin) Withdraw ``(POST: /transactions/withdraw)``
+## (Admin) Withdraw ``(POST: /admin/transactions/withdraw)``
 
 required parameters:
 * amount = `required|numeric|min:1`
