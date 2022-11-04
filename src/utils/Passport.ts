@@ -5,6 +5,7 @@ import User from "@src/models/User"
 
 const jwtFromRequest = passportJwt.ExtractJwt.fromAuthHeaderAsBearerToken()
 const secretOrKey = appConfig.jwt_key
+
 passport.use(
     new passportJwt.Strategy({jwtFromRequest,secretOrKey},
     (payload, done) => {
@@ -17,10 +18,7 @@ passport.use(
     })
 )
 
-const jwtAuthMiddleware = passport.authenticate(
-    'jwt',
-    {session: false}
-)
+const jwtAuthMiddleware = passport.authenticate('jwt', {session: false})
 
 export {
     jwtAuthMiddleware

@@ -1,0 +1,54 @@
+POST http://localhost:3000/auth/registration
+Content-Type: application/json
+
+{
+    "username": "geryruslandi",
+    "password": "123123123"
+}
+###
+
+POST http://localhost:3000/auth/login
+Content-Type: application/json
+
+{
+    "username": "geryruslandi",
+    "password": "123123123"
+}
+###
+
+POST http://localhost:3000/transactions/deposit
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImdlcnlydXNsYW5kaSIsImlhdCI6MTY2NzU0ODMwNSwiZXhwIjoxNjY4MTUzMTA1fQ.Ru41bE6-hMnC8yIOIs0W-1MfQtDjSvFJBvqzUa7hb5g
+Content-Type: application/json
+
+{
+    "amount": 70
+}
+###
+
+
+POST http://localhost:3000/transactions/withdraw
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImdlcnlydXNsYW5kaSIsImlhdCI6MTY2NzU0ODMwNSwiZXhwIjoxNjY4MTUzMTA1fQ.Ru41bE6-hMnC8yIOIs0W-1MfQtDjSvFJBvqzUa7hb5g
+Content-Type: application/json
+
+{
+    "amount": 70
+}
+###
+
+POST http://localhost:3000/admin/transactions/deposit
+Content-Type: application/json
+
+{
+    "amount": 70,
+    "user_id": 1
+}
+###
+
+POST http://localhost:3000/admin/transactions/withdraw
+Content-Type: application/json
+
+{
+    "amount": 70,
+    "user_id": 1
+}
+###
