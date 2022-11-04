@@ -146,7 +146,6 @@ ___
 
 
 ## (Admin) Deposit ``(POST: /admin/transactions/deposit)``
-> Bearer Token Needed
 
 required parameters:
 * amount = `required|numeric|min:1`
@@ -170,7 +169,6 @@ Success response example:
 ```
 
 ## (Admin) Withdraw ``(POST: /transactions/withdraw)``
-> Bearer Token Needed
 
 required parameters:
 * amount = `required|numeric|min:1`
